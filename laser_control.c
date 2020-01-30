@@ -14,6 +14,8 @@
 * Anti C'se | 5, 6  | 4, 7
 */
 //=================================================================
+#include <stdio.h>
+//=================================================================
 #define PWM_HIGH 255
 #define PWM_LOW 0
 
@@ -50,7 +52,7 @@ byte laser_direction = 0;
 int brightness_potentiometer;
 byte input_pins[] = {8, 9, 10, 12, 13};
 byte output_pins[] = {0, 1, 2, 3, 4, 5, 6, 7, 11};
-char analogue_out_pins[] = {"A1", "A2", "A3"}
+char analogue_out_pins[3][3] = {"A1", "A2", "A3"};
 //=================================================================
 void setup() {
   Serial.begin(9600);
@@ -72,7 +74,10 @@ void loop() {
   set_laser_brightness();
 
   // keep lazy susan turning
-  analogWrite(M_S_LEFT, PWM_HIGH);
+  analogWrite(M_S_L_1, PWM_LOW);
+  analogWrite(M_S_R_2, PWM_LOW);
+  analogWrite(M_S_L_2, PWM_HIGH);
+  analogWrite(M_S_R_1, PWM_HIGH);
 
   if (digitalRead(L_MAX) == LOW) {
     laser_direction = 0;
@@ -108,7 +113,7 @@ void set_laser_brightness() {
   }
 }
 //=================================================================
-void move_laser(byte = laser_direction) {
+void move_laser(byte laser_direction) {
   // Moves laser up or down dependant on laser_direction
   // Laser     | Low  | High
   // Clockwise | 4, 7 | 5, 6
@@ -129,6 +134,6 @@ void move_laser(byte = laser_direction) {
   }
 }
 //=================================================================
-void manual_mode() {
-}
+//void manual_mode() {
+//}
 //=================================================================
